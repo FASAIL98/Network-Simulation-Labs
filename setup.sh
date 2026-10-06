@@ -5,8 +5,16 @@ echo "======================================"
 echo " Setting up NS-3 Lab Environment"
 echo "======================================"
 
+# Install required tools if they are missing
+if ! command -v cmake >/dev/null 2>&1; then
+    echo "Installing CMake and required build tools..."
+    sudo apt-get update
+    sudo apt-get install -y cmake g++ ninja-build
+fi
+
 cd /workspaces/Network-Simulation-Labs
 
+# Download NS-3.46 if it does not already exist
 if [ ! -d "ns-3-dev" ]; then
     echo "Downloading NS-3.46..."
     git clone --branch ns-3.46 --depth 1 https://gitlab.com/nsnam/ns-3-dev.git ns-3-dev
@@ -14,6 +22,7 @@ else
     echo "NS-3 already exists."
 fi
 
+# Copy Lab 2 into NS-3 scratch folder
 echo "Copying Lab 2..."
 cp lab2.cc ns-3-dev/scratch/lab2.cc
 
